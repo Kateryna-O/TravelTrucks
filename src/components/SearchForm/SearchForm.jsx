@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import sprite from '../../assets/icon/sprite.svg';
 import css from './SearchForm.module.css';
 
-export const SearchForm = () => {
+export const SearchForm = ({ onResults }) => {
   const { register, handleSubmit, setValue, watch } = useForm({
     mode: 'onTouched',
   });
@@ -24,13 +24,20 @@ export const SearchForm = () => {
   const isWaterChecked = watch('water', false);
   const selectedVehicleType = watch('form', '');
 
+  const onSubmit = data => {
+    // фільтруємо лише ті поля, що мають значення
+    const filters = Object.fromEntries(
+      Object.entries(data).filter(([_, value]) => value && value !== false)
+    );
+
+    console.log('Filters:', filters);
+    if (onResults) {
+      onResults(filters); // передаємо фільтри батьківському компоненту
+    }
+  };
+
   return (
-    <form
-      onSubmit={handleSubmit(data => {
-        console.log(data);
-      })}
-      className={css.form}
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className={css.form}>
       <div className={css.wrapperLocation}>
         <label htmlFor="location" className={css.labelLocation}>
           Location
