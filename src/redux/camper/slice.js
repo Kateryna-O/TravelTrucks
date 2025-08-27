@@ -21,18 +21,12 @@ export const campersSlice = createSlice({
       .addCase(fetchCampers.fulfilled, (state, action) => {
         state.isLoading = false;
 
-        const newCampers = action.payload.items;
-
+        // Якщо перша сторінка — замінюємо список
         if (action.meta.arg.page === 1) {
-          // Перша сторінка — замінюємо список
-          state.campers = newCampers;
+          state.campers = action.payload.items;
         } else {
-          // Додаємо лише тих кемперів, яких ще немає
-          const existingIds = new Set(state.campers.map(c => c.id));
-          const filteredCampers = newCampers.filter(
-            c => !existingIds.has(c.id)
-          );
-          state.campers = [...state.campers, ...filteredCampers];
+          // Додаємо нові кемпери до існуючих
+          state.campers = [...state.campers, ...action.payload.items];
         }
       })
       .addCase(fetchCampers.rejected, (state, { payload }) => {
