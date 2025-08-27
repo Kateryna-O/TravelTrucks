@@ -66,10 +66,10 @@
   border: none;
   outline: none;
 }
-.inputs:focus {
+/* .inputs:focus {
   border-color: var(--button);
   box-shadow: 0 0 4px var(--button);
-}
+} */
 .buttonSend {
   display: flex;
   width: 166px;
