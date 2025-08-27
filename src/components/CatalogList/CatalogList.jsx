@@ -36,7 +36,7 @@ export const CatalogList = ({ filters }) => {
   }
 
   if (error) {
-    return <p>Error: {error}</p>;
+    return <p>Nothing found</p>;
   }
 
   if (!isLoading && campers.length === 0) {
